@@ -3,14 +3,25 @@ const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 const tokenBlacklistModel = require("../models/blacklist.model")
 
+const getCookieOptions = (req) => {
+    const isHttps = process.env.NODE_ENV === "production" || 
+                    process.env.COOKIE_SECURE === "true" || 
+                    (req && (req.secure || req.headers['x-forwarded-proto'] === 'https')) ||
+                    (process.env.CLIENT_URL && process.env.CLIENT_URL.startsWith('https'));
+    return {
+        httpOnly: true,
+        secure: isHttps,
+        sameSite: isHttps ? "none" : "lax"
+    };
+};
 
 async function registerUserController(req, res){
 
-    const{ username, email, password} = req.body 
+    const { username, email, password } = req.body 
 
     if(!username || !email || !password ){
         return res.status(400).json({
-            message: "please provide username , email and password "
+            message: "Please provide username, email and password"
         })
     }
 
@@ -24,29 +35,30 @@ async function registerUserController(req, res){
         })
     }
 
- const hash = await bcrypt.hash(password, 10)
+    const hash = await bcrypt.hash(password, 10)
 
- const user = await userModel.create({
-    username,
-    email,
-    password: hash
- })
-     const token = jwt.sign(
+    const user = await userModel.create({
+        username,
+        email,
+        password: hash
+    })
+    
+    const token = jwt.sign(
         {id: user._id, username: user.username },
         process.env.JWT_SECRET,
         {expiresIn: "1d"}
-     )
+    )
 
-     res.cookie("token", token, { httpOnly: true })
+    res.cookie("token", token, getCookieOptions(req))
 
-     res.status(201).json({
+    res.status(201).json({
         message: "user registered successfully",
         user: {
-        id: user._id,
-        username: user.username,
-        email: user.email 
+            id: user._id,
+            username: user.username,
+            email: user.email 
         }
-     })
+    })
 }
 
 async function loginUserController(req,res){
@@ -55,14 +67,14 @@ async function loginUserController(req,res){
 
     if (!user){
         return res.status(400).json({
-            message: "invalid email or password"
+            message: "Invalid email or password"
         })
     }
-    const isPasswordValid =await  bcrypt.compare(password, user.password)
+    const isPasswordValid = await bcrypt.compare(password, user.password)
 
     if(!isPasswordValid){
         return res.status(400).json({
-            message: "invalid email or password"
+            message: "Invalid email or password"
         })
     }
 
@@ -71,7 +83,9 @@ async function loginUserController(req,res){
         process.env.JWT_SECRET,
         {expiresIn: "1d"}
     )
-    res.cookie("token", token, { httpOnly: true })
+
+    res.cookie("token", token, getCookieOptions(req))
+
     res.status(200).json({
         message:"user login successfully",
         user: {
@@ -79,7 +93,6 @@ async function loginUserController(req,res){
             username: user.username,
             email: user.email
         }
-
     })
 }
 
@@ -89,12 +102,11 @@ async function logoutUserController(req, res){
     if(token){
         await tokenBlacklistModel.create({token})
     }
-    res.clearCookie("token")
+    res.clearCookie("token", getCookieOptions(req))
 
-     res.status(200).json({
+    res.status(200).json({
         message: "user logged out successfully"
     })
-    
 }
 
 async function getMeController(req, res){
@@ -109,8 +121,6 @@ async function getMeController(req, res){
         }
     })
 }
-
-
 
 module.exports = {
     registerUserController,
