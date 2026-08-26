@@ -1,0 +1,339 @@
+@use "./style/button.scss";
+
+// ── Root Theme Variables (Walnut Noir / Dark Luxury Glassmorphism Palette) ────
+:root, html[data-theme="dark"] {
+    --bg-page:           #2E1F1B; 
+    --bg-card:           rgba(58, 41, 36, 0.68);
+    --bg-panel:          rgba(46, 31, 27, 0.55);
+    --bg-input:          rgba(31, 20, 17, 0.85);
+    --border-color:      rgba(194, 155, 127, 0.22);
+    --border-hover:      rgba(194, 155, 127, 0.55);
+    --text-primary:      #FAF4F0;
+    --text-muted:        #C0B3AC;
+    --accent-walnut:     #5E4B43;
+    --accent-bronze:     #C29B7F;
+    --accent-bronze-dark: #A67C52;
+    --glass-blur:        blur(20px) saturate(160%);
+    --glass-shadow:      0 12px 36px 0 rgba(17, 10, 8, 0.55), inset 0 1px 1px 0 rgba(255, 255, 255, 0.12);
+    --glass-glow:        0 0 25px rgba(194, 155, 127, 0.2);
+    --badge-required-bg: rgba(194, 155, 127, 0.18);
+    --badge-required-fg: #D4AB90;
+    --badge-best-bg:     rgba(94, 75, 67, 0.35);
+    --badge-best-fg:     #FAF4F0;
+    --info-bg:           rgba(58, 41, 36, 0.6);
+    --info-border:       rgba(194, 155, 127, 0.25);
+    --info-text:         #E0D4CD;
+    --orb-color-1:       rgba(94, 75, 67, 0.45);
+    --orb-color-2:       rgba(194, 155, 127, 0.22);
+    --orb-color-3:       rgba(58, 41, 36, 0.6);
+}
+
+html[data-theme="light"] {
+    --bg-page:           #F7F2EE;
+    --bg-card:           rgba(255, 255, 255, 0.82);
+    --bg-panel:          rgba(242, 234, 228, 0.7);
+    --bg-input:          rgba(255, 255, 255, 0.95);
+    --border-color:      rgba(94, 75, 67, 0.18);
+    --border-hover:      rgba(194, 155, 127, 0.6);
+    --text-primary:      #2E1F1B;
+    --text-muted:        #786860;
+    --accent-walnut:     #5E4B43;
+    --accent-bronze:     #A67C52;
+    --accent-bronze-dark: #8A623A;
+    --glass-blur:        blur(20px) saturate(160%);
+    --glass-shadow:      0 10px 32px 0 rgba(46, 31, 27, 0.08), inset 0 1px 1px 0 rgba(255, 255, 255, 0.9);
+    --glass-glow:        0 0 25px rgba(166, 124, 82, 0.18);
+    --badge-required-bg: rgba(166, 124, 82, 0.15);
+    --badge-required-fg: #8A623A;
+    --badge-best-bg:     rgba(94, 75, 67, 0.15);
+    --badge-best-fg:     #5E4B43;
+    --info-bg:           rgba(247, 242, 238, 0.85);
+    --info-border:       rgba(166, 124, 82, 0.3);
+    --info-text:         #42322C;
+    --orb-color-1:       rgba(194, 155, 127, 0.25);
+    --orb-color-2:       rgba(235, 220, 208, 0.4);
+    --orb-color-3:       rgba(166, 124, 82, 0.2);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+    width: 100%;
+    min-height: 100vh;
+    background-color: var(--bg-page);
+    color: var(--text-primary);
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    transition: background-color 0.4s ease, color 0.4s ease;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* ── Ambient Warm Glow Orbs ─────────────────────────────────────────────────── */
+.ambient-glow-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+
+    .orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(100px);
+        opacity: 0.7;
+        animation: floatOrb 20s ease-in-out infinite alternate;
+    }
+
+    .orb-1 {
+        top: -10%;
+        left: 15%;
+        width: 550px;
+        height: 550px;
+        background: var(--orb-color-1);
+    }
+
+    .orb-2 {
+        bottom: 5%;
+        right: 10%;
+        width: 600px;
+        height: 600px;
+        background: var(--orb-color-2);
+        animation-delay: -7s;
+    }
+
+    .orb-3 {
+        top: 35%;
+        left: 50%;
+        width: 450px;
+        height: 450px;
+        background: var(--orb-color-3);
+        animation-delay: -14s;
+    }
+}
+
+@keyframes floatOrb {
+    0% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(30px, 50px) scale(1.06); }
+    100% { transform: translate(-25px, 25px) scale(0.96); }
+}
+
+/* ── Custom Scrollbar ───────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(194, 155, 127, 0.3);
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-bronze);
+}
+
+.highlight {
+    background: linear-gradient(135deg, var(--accent-bronze) 0%, #E6C5AC 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 800;
+}
+
+/* ── App Watermark (Ruchi Rathore) ─────────────────────────────────────────── */
+.app-watermark {
+    position: fixed;
+    bottom: 1.25rem;
+    right: 1.5rem;
+    z-index: 9999;
+    pointer-events: none;
+    user-select: none;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-bronze);
+    opacity: 0.45;
+    background: var(--bg-card);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    padding: 0.35rem 0.85rem;
+    border-radius: 2rem;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--glass-shadow);
+    transition: opacity 0.3s ease, color 0.3s ease;
+
+    @media (max-width: 600px) {
+        bottom: 0.75rem;
+        right: 0.75rem;
+        font-size: 0.7rem;
+        padding: 0.25rem 0.65rem;
+    }
+}
+
+/* ── App Navbar (Walnut Noir Glass Header) ─────────────────────────────────── */
+.app-navbar {
+    width: 100%;
+    background: var(--bg-card);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--glass-shadow);
+    transition: all 0.3s ease;
+
+    .navbar-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0.9rem 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .navbar-brand {
+        display: flex;
+        align-items: center;
+        gap: 0.65rem;
+        text-decoration: none;
+        color: var(--text-primary);
+        font-weight: 800;
+        font-size: 1.2rem;
+        letter-spacing: -0.02em;
+
+        .brand-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--accent-walnut) 0%, var(--accent-bronze) 100%);
+            color: #FAF4F0;
+            box-shadow: 0 4px 14px rgba(46, 31, 27, 0.4);
+            border: 1px solid var(--border-color);
+        }
+
+        .brand-accent {
+            color: var(--accent-bronze);
+        }
+    }
+
+    .navbar-actions {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .theme-toggle-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.45rem 0.9rem;
+        background: var(--bg-panel);
+        backdrop-filter: var(--glass-blur);
+        border: 1px solid var(--border-color);
+        border-radius: 2rem;
+        color: var(--text-primary);
+        font-size: 0.8rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.25s ease;
+
+        &:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-1px);
+            box-shadow: var(--glass-glow);
+        }
+
+        .theme-label {
+            text-transform: uppercase;
+            font-size: 0.68rem;
+            letter-spacing: 0.06em;
+            color: var(--text-muted);
+        }
+    }
+
+    .user-profile-menu {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+
+        .user-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.825rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            background: var(--bg-panel);
+            backdrop-filter: var(--glass-blur);
+            padding: 0.4rem 0.85rem;
+            border-radius: 2rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .logout-btn {
+            background: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            padding: 0.4rem 0.85rem;
+            border-radius: 2rem;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+
+            &:hover {
+                color: var(--accent-bronze);
+                border-color: var(--accent-bronze);
+            }
+        }
+    }
+
+    .auth-nav-links {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+
+        a {
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 700;
+            padding: 0.45rem 1rem;
+            border-radius: 2rem;
+            transition: all 0.25s ease;
+        }
+
+        .nav-login-btn {
+            color: var(--text-primary);
+            &:hover {
+                color: var(--accent-bronze);
+            }
+        }
+
+        .nav-register-btn {
+            background: linear-gradient(135deg, var(--accent-walnut) 0%, var(--accent-bronze) 100%);
+            color: #FAF4F0;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 14px rgba(46, 31, 27, 0.35);
+
+            &:hover {
+                opacity: 0.95;
+                transform: translateY(-1px);
+                box-shadow: 0 6px 20px rgba(194, 155, 127, 0.3);
+            }
+        }
+    }
+}

@@ -1,0 +1,485 @@
+// ── Page Shell ────────────────────────────────────────────────────────────────
+.interview-page {
+    width: 100%;
+    min-height: calc(100vh - 60px);
+    background-color: transparent;
+    color: var(--text-primary);
+    display: flex;
+    align-items: stretch;
+    padding: 2.25rem 1.5rem 4rem;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 1;
+}
+
+// ── 3-Column Layout (Walnut Noir Luxury Glass Container) ─────────────────────
+.interview-layout {
+    display: flex;
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    background: var(--bg-card);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--border-color);
+    border-radius: 1.75rem;
+    box-shadow: var(--glass-shadow);
+    justify-content: space-between;
+    overflow: hidden;
+
+    @media (max-width: 992px) {
+        flex-direction: column;
+    }
+}
+
+.interview-divider {
+    width: 1px;
+    background-color: var(--border-color);
+    flex-shrink: 0;
+
+    @media (max-width: 992px) {
+        width: 100%;
+        height: 1px;
+    }
+}
+
+// ── Left Nav ─────────────────────────────────────────────────────────────────
+.interview-nav {
+    width: 250px;
+    flex-shrink: 0;
+    padding: 2rem 1.35rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1.5rem;
+
+    @media (max-width: 992px) {
+        width: 100%;
+    }
+
+    &__label {
+        font-size: 0.725rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--text-muted);
+        padding: 0 0.75rem;
+        margin-bottom: 0.85rem;
+    }
+
+    &__item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        width: 100%;
+        padding: 0.8rem 0.95rem;
+        background: none;
+        border: 1px solid transparent;
+        border-radius: 0.85rem;
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        font-weight: 700;
+        cursor: pointer;
+        text-align: left;
+        transition: all 0.25s ease;
+        margin-bottom: 0.35rem;
+
+        &:hover {
+            background: var(--bg-panel);
+            color: var(--text-primary);
+        }
+
+        &--active {
+            background: var(--badge-required-bg);
+            color: var(--accent-bronze);
+            border-color: rgba(194, 155, 127, 0.3);
+
+            .interview-nav__icon svg {
+                stroke: var(--accent-bronze);
+            }
+        }
+    }
+
+    &__icon {
+        display: flex;
+        align-items: center;
+        flex-shrink: 0;
+    }
+}
+
+// ── Center Content ────────────────────────────────────────────────────────────
+.interview-content {
+    flex: 1;
+    padding: 2.25rem 2rem;
+    overflow-y: auto;
+    min-height: initial;
+    max-height: calc(100vh - 6rem);
+    padding-bottom: 5rem;
+
+    section {
+        min-height: 100%;
+    }
+}
+
+.content-header {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    margin-bottom: 1.85rem;
+    padding-bottom: 1.1rem;
+    border-bottom: 1px solid var(--border-color);
+
+    h2 {
+        font-size: 1.35rem;
+        font-weight: 800;
+        color: var(--text-primary);
+        letter-spacing: -0.02em;
+        margin: 0;
+    }
+
+    &__count {
+        font-size: 0.785rem;
+        font-weight: 700;
+        color: var(--accent-bronze);
+        background: var(--bg-panel);
+        backdrop-filter: var(--glass-blur);
+        padding: 0.25rem 0.85rem;
+        border-radius: 2rem;
+        border: 1px solid var(--border-color);
+    }
+}
+
+// ── Question Cards (Frosted Luxury Glass Accordion) ──────────────────────────
+.q-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.95rem;
+}
+
+.q-card {
+    background: var(--bg-panel);
+    backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--border-color);
+    border-radius: 1rem;
+    overflow: hidden;
+    transition: all 0.3s ease;
+
+    &:hover {
+        border-color: var(--border-hover);
+        box-shadow: var(--glass-glow);
+    }
+
+    &__header {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.95rem;
+        padding: 1.1rem 1.35rem;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    &__index {
+        flex-shrink: 0;
+        font-size: 0.75rem;
+        font-weight: 800;
+        color: var(--accent-bronze);
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: 0.5rem;
+        padding: 0.25rem 0.55rem;
+        margin-top: 2px;
+    }
+
+    &__question {
+        flex: 1;
+        margin: 0;
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        line-height: 1.55;
+    }
+
+    &__chevron {
+        flex-shrink: 0;
+        color: var(--text-muted);
+        transition: transform 0.25s ease;
+        margin-top: 2px;
+
+        &--open {
+            transform: rotate(180deg);
+            color: var(--accent-bronze);
+        }
+    }
+
+    &__body {
+        padding: 0 1.35rem 1.35rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.95rem;
+        border-top: 1px solid var(--border-color);
+        padding-top: 0.95rem;
+        background: var(--bg-card);
+    }
+
+    &__section {
+        display: flex;
+        flex-direction: column;
+        gap: 0.45rem;
+
+        p {
+            margin: 0;
+            font-size: 0.885rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+    }
+
+    &__tag {
+        font-size: 0.7rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        padding: 0.25rem 0.65rem;
+        border-radius: 0.4rem;
+        width: fit-content;
+
+        &--intention {
+            color: var(--accent-bronze);
+            background: rgba(194, 155, 127, 0.15);
+            border: 1px solid rgba(194, 155, 127, 0.3);
+        }
+
+        &--answer {
+            color: #CDBBA7;
+            background: rgba(94, 75, 67, 0.35);
+            border: 1px solid rgba(194, 155, 127, 0.25);
+        }
+    }
+}
+
+// ── Road Map ──────────────────────────────────────────────────────────────────
+.roadmap-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+
+    &::before {
+        content: '';
+        position: absolute;
+        left: 28px;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: linear-gradient(to bottom, var(--accent-bronze), var(--accent-walnut));
+        border-radius: 1px;
+    }
+}
+
+.roadmap-day {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    padding: 0.95rem 0 0.95rem 3.6rem;
+    position: relative;
+
+    &::before {
+        content: '';
+        position: absolute;
+        left: 21px;
+        top: 1.25rem;
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        background-color: var(--bg-card);
+        border: 2px solid var(--accent-bronze);
+        box-shadow: 0 0 10px rgba(194, 155, 127, 0.3);
+    }
+
+    &__header {
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+    }
+
+    &__badge {
+        font-size: 0.75rem;
+        font-weight: 800;
+        color: var(--accent-bronze);
+        background: var(--bg-panel);
+        border: 1px solid var(--border-color);
+        padding: 0.2rem 0.75rem;
+        border-radius: 2rem;
+    }
+
+    &__focus {
+        margin: 0;
+        font-size: 0.975rem;
+        font-weight: 800;
+        color: var(--text-primary);
+    }
+
+    &__tasks {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.45rem;
+
+        li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.65rem;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            line-height: 1.55;
+        }
+    }
+
+    &__bullet {
+        flex-shrink: 0;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background-color: var(--accent-bronze);
+        margin-top: 7px;
+    }
+}
+
+// ── Right Sidebar ─────────────────────────────────────────────────────────────
+.interview-sidebar {
+    width: 270px;
+    flex-shrink: 0;
+    padding: 2.25rem 1.6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+
+    @media (max-width: 992px) {
+        width: 100%;
+    }
+}
+
+.sidebar-divider {
+    height: 1px;
+    background-color: var(--border-color);
+}
+
+// Match Score Gauge
+.match-score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.85rem;
+
+    &__label {
+        font-size: 0.75rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--text-muted);
+        margin: 0;
+        align-self: flex-start;
+    }
+
+    &__ring {
+        width: 105px;
+        height: 105px;
+        border-radius: 50%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border: 4px solid;
+        background: var(--bg-panel);
+        backdrop-filter: var(--glass-blur);
+        box-shadow: var(--glass-shadow);
+        position: relative;
+
+        &.score--high {
+            border-color: var(--accent-bronze);
+            box-shadow: 0 0 20px rgba(194, 155, 127, 0.3);
+        }
+
+        &.score--mid {
+            border-color: var(--accent-walnut);
+            box-shadow: 0 0 20px rgba(94, 75, 67, 0.3);
+        }
+
+        &.score--low {
+            border-color: #B85B45;
+            box-shadow: 0 0 20px rgba(184, 91, 69, 0.3);
+        }
+    }
+
+    &__value {
+        font-size: 1.85rem;
+        font-weight: 800;
+        color: var(--text-primary);
+        line-height: 1;
+    }
+
+    &__pct {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        margin-top: -2px;
+    }
+
+    &__sub {
+        margin: 0;
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: var(--accent-bronze);
+        text-align: center;
+    }
+}
+
+// Skill Gaps
+.skill-gaps {
+    display: flex;
+    flex-direction: column;
+    gap: 0.95rem;
+
+    &__label {
+        font-size: 0.75rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--text-muted);
+        margin: 0;
+    }
+
+    &__list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.55rem;
+    }
+}
+
+.skill-tag {
+    font-size: 0.785rem;
+    font-weight: 700;
+    padding: 0.4rem 0.8rem;
+    border-radius: 0.6rem;
+    border: 1px solid;
+    cursor: default;
+
+    &--high {
+        color: #E08571;
+        background-color: rgba(224, 133, 113, 0.15);
+        border-color: rgba(224, 133, 113, 0.3);
+    }
+
+    &--medium {
+        color: var(--accent-bronze);
+        background-color: var(--badge-required-bg);
+        border-color: rgba(194, 155, 127, 0.3);
+    }
+
+    &--low {
+        color: #C5B09E;
+        background-color: rgba(94, 75, 67, 0.25);
+        border-color: rgba(194, 155, 127, 0.2);
+    }
+}

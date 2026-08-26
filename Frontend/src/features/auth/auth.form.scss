@@ -1,0 +1,99 @@
+.auth-page {
+    min-height: calc(100vh - 60px);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2.5rem 1.5rem;
+    position: relative;
+    z-index: 1;
+
+    .form-container {
+        width: 100%;
+        max-width: 440px;
+        background: var(--bg-card);
+        backdrop-filter: var(--glass-blur);
+        -webkit-backdrop-filter: var(--glass-blur);
+        border: 1px solid var(--border-color);
+        border-radius: 1.75rem;
+        padding: 2.5rem;
+        box-shadow: var(--glass-shadow);
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        position: relative;
+        overflow: hidden;
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-walnut), var(--accent-bronze));
+        }
+
+        h1 {
+            font-size: 1.85rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+        }
+
+        p {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+
+            a {
+                color: var(--accent-bronze);
+                font-weight: 700;
+                text-decoration: none;
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 1.1rem;
+    }
+
+    .input-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.45rem;
+
+        label {
+            font-size: 0.775rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        input {
+            border: 1px solid var(--border-color);
+            background: var(--bg-input);
+            backdrop-filter: var(--glass-blur);
+            color: var(--text-primary);
+            outline: none;
+            padding: 0.8rem 1.1rem;
+            border-radius: 0.85rem;
+            font-size: 0.925rem;
+            transition: all 0.25s ease;
+
+            &::placeholder {
+                color: var(--text-muted);
+            }
+
+            &:focus {
+                border-color: var(--accent-bronze);
+                box-shadow: 0 0 0 4px rgba(194, 155, 127, 0.18);
+            }
+        }
+    }
+}
