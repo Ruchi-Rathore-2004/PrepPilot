@@ -1,70 +1,56 @@
 import axios from "axios"
 
+const API_URL = import.meta.env.VITE_API_URL || import.meta.env.VITE_BACKEND_URL || "http://localhost:3000"
 
 const api = axios.create({
-    baseURL: "http://localhost:3000",
+    baseURL: API_URL,
     withCredentials: true
 })
 
 export async function register({ username, email, password }) {
-
     try {
         const response = await api.post('/api/auth/register', {
             username, email, password
         })
-
         return response.data
-
     } catch (err) {
-
-        console.log(err)
-        return null
-
+        console.error("Register error:", err)
+        return {
+            error: err.response?.data?.message || err.message || "Registration failed. Please check backend connection."
+        }
     }
-
 }
 
 export async function login({ email, password }) {
-
     try {
-
         const response = await api.post("/api/auth/login", {
             email, password
         })
-
         return response.data
-
     } catch (err) {
-        console.log(err)
-        return null
+        console.error("Login error:", err)
+        return {
+            error: err.response?.data?.message || err.message || "Login failed. Please check backend connection."
+        }
     }
-
 }
 
 export async function logout() {
     try {
-
         const response = await api.get("/api/auth/logout")
-
         return response.data
-
     } catch (err) {
-        console.log(err)
+        console.error("Logout error:", err)
         return null
     }
 }
 
 export async function getMe() {
-
     try {
-
         const response = await api.get("/api/auth/get-me")
-
         return response.data
-
     } catch (err) {
-        console.log(err)
+        console.error("GetMe error:", err)
         return null
     }
-
 }

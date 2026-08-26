@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React, { useState } from 'react'
 import { useNavigate, Link } from 'react-router'
 import "../auth.form.scss"
 import { useAuth } from '../hooks/useAuth'
@@ -11,14 +11,22 @@ const Login = () => {
 
     const [ email, setEmail ] = useState("")
     const [ password, setPassword ] = useState("")
+    const [ errorMessage, setErrorMessage ] = useState("")
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        await handleLogin({email,password})
-        navigate('/')
+        setErrorMessage("")
+        const res = await handleLogin({ email, password })
+        if (res && res.user) {
+            navigate('/')
+        } else if (res && res.error) {
+            setErrorMessage(res.error)
+        } else {
+            setErrorMessage("Login failed. Please try again.")
+        }
     }
 
-    if(loading){
+    if (loading) {
         return (
             <>
                 <Navbar />
@@ -36,6 +44,21 @@ const Login = () => {
                 <div className="form-container">
                     <h1>Welcome Back</h1>
                     <p style={{ marginTop: '-0.75rem', marginBottom: '0.5rem' }}>Sign in to continue your interview preparation</p>
+
+                    {errorMessage && (
+                        <div style={{
+                            padding: '0.75rem 1rem',
+                            backgroundColor: 'rgba(239, 68, 68, 0.15)',
+                            border: '1px solid rgba(239, 68, 68, 0.4)',
+                            borderRadius: '0.6rem',
+                            color: '#F87171',
+                            fontSize: '0.85rem',
+                            fontWeight: '600'
+                        }}>
+                            {errorMessage}
+                        </div>
+                    )}
+
                     <form onSubmit={handleSubmit}>
                         <div className="input-group">
                             <label htmlFor="email">Email</label>

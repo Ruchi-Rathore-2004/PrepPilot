@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React, { useState } from 'react'
 import { useNavigate, Link } from 'react-router'
 import { useAuth } from '../hooks/useAuth'
 import "../auth.form.scss"
@@ -10,16 +10,24 @@ const Register = () => {
     const [ username, setUsername ] = useState("")
     const [ email, setEmail ] = useState("")
     const [ password, setPassword ] = useState("")
+    const [ errorMessage, setErrorMessage ] = useState("")
 
-    const {loading,handleRegister} = useAuth()
+    const { loading, handleRegister } = useAuth()
     
     const handleSubmit = async (e) => {
         e.preventDefault()
-        await handleRegister({username,email,password})
-        navigate("/")
+        setErrorMessage("")
+        const res = await handleRegister({ username, email, password })
+        if (res && res.user) {
+            navigate("/")
+        } else if (res && res.error) {
+            setErrorMessage(res.error)
+        } else {
+            setErrorMessage("Registration failed. Please try again.")
+        }
     }
 
-    if(loading){
+    if (loading) {
         return (
             <>
                 <Navbar />
@@ -37,6 +45,20 @@ const Register = () => {
                 <div className="form-container">
                     <h1>Create Account</h1>
                     <p style={{ marginTop: '-0.75rem', marginBottom: '0.5rem' }}>Join PrepPilot for personalized interview plans</p>
+
+                    {errorMessage && (
+                        <div style={{
+                            padding: '0.75rem 1rem',
+                            backgroundColor: 'rgba(239, 68, 68, 0.15)',
+                            border: '1px solid rgba(239, 68, 68, 0.4)',
+                            borderRadius: '0.6rem',
+                            color: '#F87171',
+                            fontSize: '0.85rem',
+                            fontWeight: '600'
+                        }}>
+                            {errorMessage}
+                        </div>
+                    )}
 
                     <form onSubmit={handleSubmit}>
 

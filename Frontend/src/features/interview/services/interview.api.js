@@ -1,7 +1,9 @@
 import axios from "axios";
 
+const API_URL = import.meta.env.VITE_API_URL || import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
+
 const api = axios.create({
-    baseURL: "http://localhost:3000",
+    baseURL: API_URL,
     withCredentials: true,
 })
 
@@ -27,7 +29,7 @@ export const generateInterviewReport = async ({ jobDescription, selfDescription,
 
         return response.data
     } catch (err) {
-        console.log(err)
+        console.error("generateInterviewReport error:", err)
         return null
     }
 
@@ -42,7 +44,7 @@ export const getInterviewReportById = async (interviewId) => {
         const response = await api.get(`/api/interview/report/${interviewId}`)
         return response.data
     } catch (err) {
-        console.log(err)
+        console.error("getInterviewReportById error:", err)
         return null
     }
 }
@@ -56,7 +58,7 @@ export const getAllInterviewReports = async () => {
         const response = await api.get("/api/interview/")
         return response.data
     } catch (err) {
-        console.log(err)
+        console.error("getAllInterviewReports error:", err)
         return null
     }
 }
@@ -72,7 +74,7 @@ export const generateResumePdf = async ({ interviewReportId }) => {
         })
         return response.data
     } catch (err) {
-        console.log(err)
+        console.error("generateResumePdf error:", err)
         return null
     }
 }
